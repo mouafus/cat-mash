@@ -15,4 +15,4 @@ Quel est le chat le plus mignon ?
 - back : https://github.com/mouafus/cat-mash-api
 
 
-Le site est déployé sur github pages : https://mouafus.github.io/cat-mash/
+Le site est déployé sur github pages : https://cat-mash.onrender.com/
