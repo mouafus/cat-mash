@@ -5,11 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import {createBrowserRouter, RouterProvider,} from "react-router-dom";
 import Home from "./views/home";
 import {ToastContainer} from 'react-toastify';
+import Results from "./views/results";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Home/>,
+    },
+    {
+        path: '/results',
+        element: <Results/>,
     },
 ]);
 
@@ -25,7 +30,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             rtl={false}
             theme={"dark"}
             pauseOnHover
-
         />
     </React.StrictMode>,
 )

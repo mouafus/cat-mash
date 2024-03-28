@@ -8,9 +8,10 @@ import logo from '../../assets/logo.png';
 import {Link} from "react-router-dom";
 import useSWR from "swr";
 import { toast } from 'react-toastify';
+import {endpoints} from "../../endpoints.ts";
 
 export default function Home() {
-    const {data: totalVotes, error, mutate } = useSWR('total-votes', fetcher, {
+    const {data: totalVotes, error, mutate } = useSWR('/total-votes', fetcher, {
         onError: () => toast.error('Une erreur est survenue lors de la récupération des votes'),
     });
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -59,7 +60,7 @@ export default function Home() {
                 />
             </div>
 
-            <Link to={'/result'}>
+            <Link to={endpoints.results}>
                 <div
                     className={classes.result_cta}
                 >
