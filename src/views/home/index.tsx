@@ -61,7 +61,7 @@ export default function Home() {
             </div>
 
             {
-                !error && totalVotes.data > 0 && (
+                !error && totalVotes?.data > 0 && (
                     <Link to={endpoints.results}>
                         <div
                             className={classes.result_cta}
