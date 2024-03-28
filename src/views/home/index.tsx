@@ -4,14 +4,14 @@ import {ICat} from "../../types";
 import {chunk, fetcher, postVote, shuffleArray} from "../../utils";
 import classes from './styles.module.css';
 import {VoteCard} from "./components/VoteCard.tsx";
-import logo from '../../assets/logo.png';
 import {Link} from "react-router-dom";
 import useSWR from "swr";
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import {endpoints} from "../../endpoints.ts";
+import {Logo} from "../../components";
 
 export default function Home() {
-    const {data: totalVotes, error, mutate } = useSWR('/total-votes', fetcher, {
+    const {data: totalVotes, error, mutate} = useSWR('/total-votes', fetcher, {
         onError: () => toast.error('Une erreur est survenue lors de la récupération des votes'),
     });
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,7 +23,7 @@ export default function Home() {
                 if (currentIndex === data.length - 1) {
                     setCurrentIndex(0);
                     return;
-                }else {
+                } else {
                     setCurrentIndex(currentIndex + 1);
                 }
             })
@@ -37,7 +37,7 @@ export default function Home() {
     return (
         <div className={classes.root}>
             <div className={classes.title}>
-                <img src={logo} className={classes.logo} alt="App logo"/>
+                <Logo/>
                 <h3>Cat Mash</h3>
                 <p>
                     {title}
@@ -60,23 +60,27 @@ export default function Home() {
                 />
             </div>
 
-            <Link to={endpoints.results}>
-                <div
-                    className={classes.result_cta}
-                >
-                    <h4>
-                        Voir les plus beaux chats
-                    </h4>
+            {
+                !error && totalVotes.data > 0 && (
+                    <Link to={endpoints.results}>
+                        <div
+                            className={classes.result_cta}
+                        >
+                            <h4>
+                                Voir les plus beaux chats
+                            </h4>
 
-                    {
-                        !error && totalVotes && (
-                            <h5>
-                                {totalVotes.data} votes
-                            </h5>
-                        )
-                    }
-                </div>
-            </Link>
+                            {
+                                !error && totalVotes && (
+                                    <h5>
+                                        {totalVotes.data} votes
+                                    </h5>
+                                )
+                            }
+                        </div>
+                    </Link>
+                )
+            }
         </div>
     );
 }

@@ -8,16 +8,6 @@
         width: 100%;
         margin-bottom: 1rem;
         align-items: center;
-
-        .logo{
-            width: 64px;
-            height: 64px;
-
-            @media (max-width: 768px){
-                width: 38px;
-                height: 38px;
-            }
-        }
     }
 
     .title{
@@ -70,7 +60,5 @@
                 border: 1px solid #000;
             }
         }
-
-
     }
 }
