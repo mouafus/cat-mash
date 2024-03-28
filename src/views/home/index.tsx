@@ -1,24 +1,34 @@
 import {useState} from "react";
 import cats from '../../assets/cats.json';
 import {ICat} from "../../types";
-import {chunk, shuffleArray} from "../../utils";
+import {chunk, fetcher, postVote, shuffleArray} from "../../utils";
 import classes from './styles.module.css';
 import {VoteCard} from "./components/VoteCard.tsx";
 import logo from '../../assets/logo.png';
 import {Link} from "react-router-dom";
+import useSWR from "swr";
+import { toast } from 'react-toastify';
 
 export default function Home() {
+    const {data: totalVotes, error, mutate } = useSWR('total-votes', fetcher, {
+        onError: () => toast.error('Une erreur est survenue lors de la récupération des votes'),
+    });
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const data = chunk(shuffleArray(cats as ICat[]));
-
     const handleVote = (id: string) => {
-        console.log(id);
-        if (currentIndex === data.length - 1) {
-            setCurrentIndex(0);
-            return;
-        }
-        setCurrentIndex(currentIndex + 1);
+        postVote(id)
+            .then((data) => {
+                mutate();
+                if (currentIndex === data.length - 1) {
+                    setCurrentIndex(0);
+                    return;
+                }else {
+                    setCurrentIndex(currentIndex + 1);
+                }
+            })
+            .catch((error) => {
+                toast.error(error.message || 'Une erreur est survenue lors du vote');
+            });
     }
 
     const title = "Votez pour le plus beau chat en cliquant sur l'image"
@@ -57,9 +67,13 @@ export default function Home() {
                         Voir les plus beaux chats
                     </h4>
 
-                    <h5>
-                        {120} votes
-                    </h5>
+                    {
+                        !error && totalVotes && (
+                            <h5>
+                                {totalVotes.data} votes
+                            </h5>
+                        )
+                    }
                 </div>
             </Link>
         </div>
