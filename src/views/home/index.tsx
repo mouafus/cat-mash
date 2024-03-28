@@ -14,6 +14,9 @@ export default function Home() {
     const {data: totalVotes, error, mutate} = useSWR('/total-votes', fetcher, {
         onError: () => toast.error('Une erreur est survenue lors de la récupération des votes'),
     });
+
+    console.log("totalVotes", totalVotes);
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const data = chunk(shuffleArray(cats as ICat[]));
     const handleVote = (id: string) => {
@@ -61,7 +64,7 @@ export default function Home() {
             </div>
 
             {
-                !error && totalVotes.data > 0 && (
+                !error && totalVotes?.data > 0 && (
                     <Link to={endpoints.results}>
                         <div
                             className={classes.result_cta}
